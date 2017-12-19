@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import "./App.css";
 
 const HEROES = [
@@ -14,22 +14,32 @@ const HEROES = [
   { id: 20, name: "Tornado" }
 ];
 
-const App = () => {
-  const handleSelectedHero = hero => {
-    console.log(hero.name);
+class App extends Component {
+  state = {
+    selectedHero: {}
   };
-  const heroesListReactElements = HEROES.map(hero => (
-    <li key={hero.id} onClick={() => handleSelectedHero(hero)}>
+  handleSelectedHero = hero => {
+    console.log(hero.name);
+    // this.state.selectedHero = hero;
+    this.setState({
+      selectedHero: hero
+    });
+  };
+  heroesListReactElements = HEROES.map(hero => (
+    <li key={hero.id} onClick={() => this.handleSelectedHero(hero)}>
       <span className="badge">{hero.id}</span>
       {hero.name}
     </li>
   ));
-  return (
-    <div className="App">
-      <h1>React Heroes</h1>
-      <ul className="heroes">{heroesListReactElements}</ul>
-    </div>
-  );
-};
+  render() {
+    return (
+      <div className="App">
+        <h1>React Heroes</h1>
+        {this.state.selectedHero.name}
+        <ul className="heroes">{this.heroesListReactElements}</ul>
+      </div>
+    );
+  }
+}
 
 export default App;
