@@ -16,8 +16,12 @@ const HEROES = [
 
 class App extends Component {
   state = {
-    selectedHero: {}
+    selectedHero: {
+      name: "",
+      id: undefined
+    }
   };
+  //on click event for hero li element
   handleSelectedHero = hero => {
     console.log(hero.name);
     // this.state.selectedHero = hero;
@@ -25,18 +29,43 @@ class App extends Component {
       selectedHero: hero
     });
   };
-  heroesListReactElements = HEROES.map(hero => (
-    <li key={hero.id} onClick={() => this.handleSelectedHero(hero)}>
-      <span className="badge">{hero.id}</span>
-      {hero.name}
-    </li>
-  ));
+
+  //changle to hero input on selected hero form
+  handleInputChange = event => {
+    this.setState({
+      selectedHero: {
+        ...this.state.selectedHero,
+        name: event.target.value
+      }
+    });
+  };
+
   render() {
+    const heroesListReactElements = HEROES.map(hero => (
+      <li key={hero.id} onClick={() => this.handleSelectedHero(hero)}>
+        <span className="badge">{hero.id}</span>
+        {hero.name}
+      </li>
+    ));
     return (
       <div className="App">
         <h1>React Heroes</h1>
-        {this.state.selectedHero.name}
-        <ul className="heroes">{this.heroesListReactElements}</ul>
+        <ul className="heroes">{heroesListReactElements}</ul>
+        <div>
+          <label>ID: </label>
+          {this.state.selectedHero.id}
+          <label>Name: </label>
+          {this.state.selectedHero.name}
+        </div>
+        <form>
+          <label>Hero Name: </label>
+          <input
+            type="text"
+            value={this.state.selectedHero.name}
+            onChange={e => this.handleInputChange(e)}
+          />
+          <input className="button" type="submit" value="submit" />
+        </form>
       </div>
     );
   }

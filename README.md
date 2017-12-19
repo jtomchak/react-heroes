@@ -71,3 +71,5 @@ handleSelectedHero = hero => {
   });
 };
 ```
+
+15.
