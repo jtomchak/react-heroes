@@ -16,6 +16,7 @@ const HEROES = [
 
 class App extends Component {
   state = {
+    heroes: HEROES,
     selectedHero: {
       name: "",
       id: undefined
@@ -30,7 +31,7 @@ class App extends Component {
     });
   };
 
-  //changle to hero input on selected hero form
+  //change to hero input on selected hero form
   handleInputChange = event => {
     this.setState({
       selectedHero: {
@@ -40,8 +41,31 @@ class App extends Component {
     });
   };
 
+  //save edited selected hero back into state "heroes"
+  handleFormSubmit = e => {
+    e.preventDefault();
+    //things we know selectedHero.name, selectedHero.id
+    //do we know we know where in the array selectedHero is?
+    const selectedHero = this.state.selectedHero;
+    const heroes = this.state.heroes;
+    const selectedHeroIndex = this.state.heroes
+      .map(o => o.id)
+      .indexOf(selectedHero.id);
+    this.setState({
+      heroes: [
+        ...heroes.slice(0, selectedHeroIndex),
+        selectedHero,
+        ...heroes.slice(selectedHeroIndex + 1, heroes.length)
+      ],
+      selectedHero: {
+        name: "",
+        id: undefined
+      }
+    });
+  };
+
   render() {
-    const heroesListReactElements = HEROES.map(hero => (
+    const heroesListReactElements = this.state.heroes.map(hero => (
       <li key={hero.id} onClick={() => this.handleSelectedHero(hero)}>
         <span className="badge">{hero.id}</span>
         {hero.name}
@@ -49,23 +73,43 @@ class App extends Component {
     ));
     return (
       <div className="App">
-        <h1>React Heroes</h1>
-        <ul className="heroes">{heroesListReactElements}</ul>
-        <div>
-          <label>ID: </label>
-          {this.state.selectedHero.id}
-          <label>Name: </label>
-          {this.state.selectedHero.name}
+        <h1>{this.state.title}</h1>
+        <div className="container">
+          <div className="row">
+            <div className="col-md-6 col-sm-12">
+              <ul className="heroes">{heroesListReactElements}</ul>
+            </div>
+            <div className="col-md-6 col-sm-12">
+              <h2 style={{ textAlign: "center" }}>
+                {this.state.selectedHero.name}
+              </h2>
+              <form
+                className="form-horizontal"
+                style={{ width: "60%", padding: "25px" }}
+                onSubmit={e => this.handleFormSubmit(e)}
+              >
+                <div className="form-group">
+                  <label className="control-label">ID: </label>
+                  {this.state.selectedHero.id}
+                </div>
+                <div className="form-group">
+                  <label className="control-label">Hero Name: </label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    value={this.state.selectedHero.name}
+                    onChange={e => this.handleInputChange(e)}
+                  />
+                </div>
+                <input
+                  className="button btn btn-info"
+                  type="submit"
+                  value="submit"
+                />
+              </form>
+            </div>
+          </div>
         </div>
-        <form>
-          <label>Hero Name: </label>
-          <input
-            type="text"
-            value={this.state.selectedHero.name}
-            onChange={e => this.handleInputChange(e)}
-          />
-          <input className="button" type="submit" value="submit" />
-        </form>
       </div>
     );
   }
