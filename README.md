@@ -72,4 +72,58 @@ handleSelectedHero = hero => {
 };
 ```
 
-15.
+18. Adding Bootstrap to our react project `npm install react-bootstrap bootstrap@3`
+
+19. Importing the needed css into our index.js, bc remember webpack is going to roll all our stuff and bundle it nicely for us
+
+```js
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap/dist/css/bootstrap-theme.css";
+```
+
+15. We're gonna need a form with some input for our 'heroes' name to be edited into.
+
+```HTML
+ <form
+                className="form-horizontal"
+                style={{ width: "60%", padding: "25px" }}
+                onSubmit={e => this.handleFormSubmit(e)}
+              >
+                <div className="form-group">
+                  <label className="control-label">ID: </label>
+                  {this.state.selectedHero.id}
+                </div>
+                <div className="form-group">
+                  <label className="control-label">Hero Name: </label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    value={this.state.selectedHero.name}
+                    onChange={e => this.handleInputChange(e)}
+                  />
+                </div>
+                <input
+                  className="button btn btn-info"
+                  type="submit"
+                  value="submit"
+                />
+              </form>
+```
+
+16. The attributes of input `value` and `onChange` are going to be our state.selectedHero a class method `handleInputChange`
+
+17. Filling out the method `handleInputChange`
+
+```js
+//change to hero input on selected hero form
+handleInputChange = event => {
+  this.setState({
+    selectedHero: {
+      ...this.state.selectedHero,
+      name: event.target.value
+    }
+  });
+};
+```
+
+18.
