@@ -15,9 +15,19 @@ const HEROES = [
 ];
 
 const App = () => {
+  const handleSelectedHero = hero => {
+    console.log(hero.name);
+  };
+  const heroesListReactElements = HEROES.map(hero => (
+    <li key={hero.id} onClick={() => handleSelectedHero(hero)}>
+      <span className="badge">{hero.id}</span>
+      {hero.name}
+    </li>
+  ));
   return (
-    <div>
+    <div className="App">
       <h1>React Heroes</h1>
+      <ul className="heroes">{heroesListReactElements}</ul>
     </div>
   );
 };
