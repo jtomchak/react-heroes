@@ -72,19 +72,19 @@ handleSelectedHero = hero => {
 };
 ```
 
-18. Adding Bootstrap to our react project `npm install react-bootstrap bootstrap@3`
+15. Adding Bootstrap to our react project `npm install react-bootstrap bootstrap@3`
 
-19. Importing the needed css into our index.js, bc remember webpack is going to roll all our stuff and bundle it nicely for us
+16. Importing the needed css into our index.js, bc remember webpack is going to roll all our stuff and bundle it nicely for us
 
 ```js
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/css/bootstrap-theme.css";
 ```
 
-15. We're gonna need a form with some input for our 'heroes' name to be edited into.
+17. We're gonna need a form with some input for our 'heroes' name to be edited into.
 
 ```HTML
- <form
+              <form
                 className="form-horizontal"
                 style={{ width: "60%", padding: "25px" }}
                 onSubmit={e => this.handleFormSubmit(e)}
@@ -110,9 +110,9 @@ import "bootstrap/dist/css/bootstrap-theme.css";
               </form>
 ```
 
-16. The attributes of input `value` and `onChange` are going to be our state.selectedHero a class method `handleInputChange`
+18. The attributes of input `value` and `onChange` are going to be our state.selectedHero a class method `handleInputChange`
 
-17. Filling out the method `handleInputChange`
+19. Filling out the method `handleInputChange`
 
 ```js
 //change to hero input on selected hero form
@@ -126,4 +126,42 @@ handleInputChange = event => {
 };
 ```
 
-18.
+20. Now we want, when we submit the form, to have it update the Heroes array. So rather than calling the array itself, we set the state property of our component with the array.
+
+```js
+state = {
+  heroes: HEROES,
+  selectedHero: {
+    name: "",
+    id: undefined
+  }
+};
+```
+
+21. With `onSubmit={e => this.handleFormSubmit(e)}` we'll need a class method handleFormSubmit
+
+```js
+//save edited selected hero back into state "heroes" array
+handleFormSubmit = e => {
+  e.preventDefault(); //--> this keeps the form from doing HTTP POST, and refreshing the page
+  //things we know selectedHero.name, selectedHero.id
+  //do we know we know where in the array selectedHero is?
+  const selectedHero = this.state.selectedHero;
+  const heroes = this.state.heroes;
+  const selectedHeroIndex = this.state.heroes
+    .map(o => o.id)
+    .indexOf(selectedHero.id); //---> Getting the index of the selected hero lets us update in the array bc now we know where it is
+  this.setState({
+    heroes: [
+      ...heroes.slice(0, selectedHeroIndex), //---> all the heroes up to the selected hero
+      selectedHero, //---> replaced the hero in the array with the selected hero object that has been updated from the onChange method
+      ...heroes.slice(selectedHeroIndex + 1, heroes.length) //---> put all the other heroes back from selected hero to the end of the array
+    ],
+    selectedHero: {
+      //---> reset the selected hero of state, that will clear out the form fields, bc their values are dependent on the selected hero
+      name: "",
+      id: undefined
+    }
+  });
+};
+```
