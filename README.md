@@ -165,3 +165,62 @@ handleFormSubmit = e => {
   });
 };
 ```
+
+22. Components, Importing and Exporting.
+
+* We will be breaking up this single file into multiple components, so that we route to and from them. Sweet.
+  ## There are 4 types of exports:
+  1— Named exports (several per module)
+  2— Default exports (one per module)
+  3 — Mixed named & default exports
+  4— Cyclical Dependencies
+
+23. Create `components` folder inside of src, and move App.js and App.css into it. **DON'T** forget to change the path of App in index.js.
+
+    ### Compile Early and Often!!!
+
+24. Remove the HEROES array from App.js and create a `heroes.service.js` file on the root of your application.
+
+```js
+const HEROES = [
+  { id: 11, name: "Mr. Nice" },
+  { id: 12, name: "Narco" },
+  { id: 13, name: "Bombasto" },
+  { id: 14, name: "Celeritas" },
+  { id: 15, name: "Magneta" },
+  { id: 16, name: "RubberMan" },
+  { id: 17, name: "Dynama" },
+  { id: 18, name: "Dr IQ" },
+  { id: 19, name: "Magma" },
+  { id: 20, name: "Tornado" }
+];
+
+//Mock Fetch HTTP GET request for Heroes
+const getHeroes = new Promise((resolve, reject) => {
+  resolve(HEROES);
+});
+
+const getHeroById = heroId =>
+  new Promise((resolve, reject) => {
+    resolve(HEROES.find(hero => hero.id === heroId));
+  });
+
+export { getHeroes, getHeroById };
+```
+
+25. Now we want to import that module into App.js, so we can use it to get our heroes
+    `import { getHeroes } from "../heroes.service.js"`
+
+26. Then we want to leverage the life cycle component `componentWillMount` can then we can consume this promise of heroes, and setState accordingly.
+
+```js
+  componentWillMount() {
+    getHeroes
+      .then(payload =>
+        this.setState({
+          heroes: payload
+        })
+      )
+      .catch(x => console.log(x));
+  }
+```
