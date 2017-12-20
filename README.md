@@ -225,4 +225,46 @@ export { getHeroes, getHeroById };
   }
 ```
 
-27. Let's talk about routing....
+27. Let's talk about routing....but first more components. We want to separate some of our application so that it's not so tied directly to the App component. Pull out the heroesList into it's own file, import react, and convert it into a function that will take props.
+
+```js
+const heroesListReactElements = this.state.heroes.map(hero => (
+  <li key={hero.id} onClick={() => this.handleSelectedHero(hero)}>
+    <span className="badge">{hero.id}</span>
+    {hero.name}
+  </li>
+));
+```
+
+28. Should look a bit like....
+
+```js
+//HeroesListItems.js :-)
+import React from "react";
+
+const HeroListItem = props =>
+  props.heroes.map(hero => (
+    <li key={hero.id} onClick={() => props.handleSelectedHero(hero)}>
+      <span className="badge">{hero.id}</span>
+      {hero.name}
+    </li>
+  ));
+
+export default HeroListItem;
+```
+
+29. Sweet, now we need to import it into our App component, and render it in our markup, passing it an array of heroes and a function to call when `onClick` happens
+
+```js
+//..App.js
+import HeroListItem from "./HeroListItem";
+
+....
+
+<HeroListItem
+  heroes={this.state.heroes}
+  handleSelectedHero={this.handleSelectedHero}
+/>;
+```
+
+30. Now, I'd like you to try to move the form, following the same basic logic.....
