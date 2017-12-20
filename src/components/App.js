@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import "./App.css";
 import HeroListItem from "./HeroListItem";
+import HeroForm from "./HeroForm";
 import { getHeroes } from "../heroes.service";
+import "./App.css";
 
 class App extends Component {
   state = {
@@ -76,35 +77,11 @@ class App extends Component {
                   handleSelectedHero={this.handleSelectedHero}
                 />
               </ul>
-            </div>
-            <div className="col-md-6 col-sm-12">
-              <h2 style={{ textAlign: "center" }}>
-                {this.state.selectedHero.name}
-              </h2>
-              <form
-                className="form-horizontal"
-                style={{ width: "60%", padding: "25px" }}
-                onSubmit={e => this.handleFormSubmit(e)}
-              >
-                <div className="form-group">
-                  <label className="control-label">ID: </label>
-                  {this.state.selectedHero.id}
-                </div>
-                <div className="form-group">
-                  <label className="control-label">Hero Name: </label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    value={this.state.selectedHero.name}
-                    onChange={e => this.handleInputChange(e)}
-                  />
-                </div>
-                <input
-                  className="button btn btn-info"
-                  type="submit"
-                  value="submit"
-                />
-              </form>
+              <HeroForm
+                selectedHero={this.state.selectedHero}
+                submitForm={this.handleFormSubmit}
+                inputChange={this.handleInputChange}
+              />
             </div>
           </div>
         </div>
