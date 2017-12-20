@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
+import HeroListItem from "./HeroListItem";
 import { getHeroes } from "../heroes.service";
 
 class App extends Component {
@@ -63,19 +64,18 @@ class App extends Component {
   };
 
   render() {
-    const heroesListReactElements = this.state.heroes.map(hero => (
-      <li key={hero.id} onClick={() => this.handleSelectedHero(hero)}>
-        <span className="badge">{hero.id}</span>
-        {hero.name}
-      </li>
-    ));
     return (
       <div className="App">
         <h1>{this.state.title}</h1>
         <div className="container">
           <div className="row">
             <div className="col-md-6 col-sm-12">
-              <ul className="heroes">{heroesListReactElements}</ul>
+              <ul className="heroes">
+                <HeroListItem
+                  heroes={this.state.heroes}
+                  handleSelectedHero={this.handleSelectedHero}
+                />
+              </ul>
             </div>
             <div className="col-md-6 col-sm-12">
               <h2 style={{ textAlign: "center" }}>

@@ -1,6 +1,6 @@
 {
   "name": "react-heroes",
-  "description": null,
+  "description": "react basics for master list and detail",
   "version": "0.0.0",
   "dependencies": {
     "bootstrap": "^3.3.7",
