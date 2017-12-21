@@ -294,4 +294,54 @@ const HeroesList = props => {
     `npm install react-router-dom`
 33. From the Root of our App, in App.js we need to import our router
     `import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";`
-34.
+34. After making the Nav,
+
+```js
+<nav>
+  <NavLink exact to="/" activeClassName="active">
+    Dashboard
+  </NavLink>
+  <NavLink to="/heroes" activeClassName="active">
+    Heroes
+  </NavLink>
+</nav>
+```
+
+35. In order to pass props to a component that we need use `render` rather than `component`
+
+```js
+<Route
+            exact
+            path="/"
+            render={props => (
+              <Dashboard
+                {...props}
+                heroes={this.state.heroes}
+                handleSelectedHero={this.handleSelectedHero}
+              />
+```
+
+36. And for the Dashboard we've got a new component with some fancy CSS
+
+```js
+class Dashboard extends Component {
+  render() {
+    const heroBlocks = this.props.heroes.map(hero => (
+      <Link key={hero.id} className="col-1-4" to={`heroes/details/${hero.id}`}>
+        <div className="module hero">
+          <h4>{hero.name}</h4>
+        </div>
+      </Link>
+    ));
+    return (
+      <div>
+        <h3>Top Heroes</h3>
+        <div className="grid grid-pad">{heroBlocks}</div>
+      </div>
+    );
+  }
+}
+```
+
+37. Check the Dashboard.css for the fancy Grid layout!!!!
+38.
