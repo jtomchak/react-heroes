@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import HeroesList from "./HeroesList";
 import HeroForm from "./HeroForm";
+import Dashboard from "./Dashboard";
+import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
 import { getHeroes } from "../heroes.service";
 import "./App.css";
 
@@ -63,21 +65,55 @@ class App extends Component {
       }
     });
   };
-
   render() {
     return (
-      <div className="App">
-        <h1>{this.state.title}</h1>
-        <HeroesList
-          heroes={this.state.heroes}
-          handleSelectedHero={this.handleSelectedHero}
-        />
-        <HeroForm
-          selectedHero={this.state.selectedHero}
-          submitForm={this.handleFormSubmit}
-          inputChange={this.handleInputChange}
-        />
-      </div>
+      <Router>
+        <div>
+          <h1>Git Tour of Heroes</h1>
+          <nav>
+            <NavLink exact to="/" activeClassName="active">
+              Dashboard
+            </NavLink>
+            <NavLink to="/heroes" activeClassName="active">
+              Heroes
+            </NavLink>
+          </nav>
+          <hr />
+          <Route
+            exact
+            path="/"
+            render={props => (
+              <Dashboard
+                {...props}
+                heroes={this.state.heroes}
+                handleSelectedHero={this.handleSelectedHero}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/heroes"
+            render={props => (
+              <HeroesList
+                {...props}
+                heroes={this.state.heroes}
+                handleSelectedHero={this.handleSelectedHero}
+              />
+            )}
+          />
+          <Route
+            path={"/heroes/details/:heroid"}
+            render={props => (
+              <HeroForm
+                {...props}
+                selectedHero={this.state.selectedHero}
+                submitForm={this.handleFormSubmit}
+                inputChange={this.handleInputChange}
+              />
+            )}
+          />
+        </div>
+      </Router>
     );
   }
 }
