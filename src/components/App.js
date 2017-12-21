@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import HeroListItem from "./HeroListItem";
+import HeroesList from "./HeroesList";
 import HeroForm from "./HeroForm";
 import { getHeroes } from "../heroes.service";
 import "./App.css";
@@ -68,23 +68,15 @@ class App extends Component {
     return (
       <div className="App">
         <h1>{this.state.title}</h1>
-        <div className="container">
-          <div className="row">
-            <div className="col-md-6 col-sm-12">
-              <ul className="heroes">
-                <HeroListItem
-                  heroes={this.state.heroes}
-                  handleSelectedHero={this.handleSelectedHero}
-                />
-              </ul>
-              <HeroForm
-                selectedHero={this.state.selectedHero}
-                submitForm={this.handleFormSubmit}
-                inputChange={this.handleInputChange}
-              />
-            </div>
-          </div>
-        </div>
+        <HeroesList
+          heroes={this.state.heroes}
+          handleSelectedHero={this.handleSelectedHero}
+        />
+        <HeroForm
+          selectedHero={this.state.selectedHero}
+          submitForm={this.handleFormSubmit}
+          inputChange={this.handleInputChange}
+        />
       </div>
     );
   }

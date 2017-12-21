@@ -268,3 +268,30 @@ import HeroListItem from "./HeroListItem";
 ```
 
 30. Now, I'd like you to try to move the form, following the same basic logic.....
+31. We are going to pull out the rest of the heroes list items and create a full UL List of these guys
+
+```js
+const HeroesList = props => {
+  const HeroesItem = props.heroes.map(hero => (
+    <li key={hero.id} onClick={() => props.handleSelectedHero(hero)}>
+      <span className="badge">{hero.id}</span>
+      {hero.name}
+    </li>
+  ));
+  return (
+    <div className="container">
+      <div className="row">
+        <div className="col-md-6 col-sm-12">
+          <ul className="heroes">{HeroesItem}</ul>
+        </div>
+      </div>
+    </div>
+  );
+};
+```
+
+32. We'll need a Router package bc React doesn't come with one
+    `npm install react-router-dom`
+33. From the Root of our App, in App.js we need to import our router
+    `import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";`
+34.
