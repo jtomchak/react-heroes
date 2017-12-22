@@ -344,4 +344,85 @@ class Dashboard extends Component {
 ```
 
 37. Check the Dashboard.css for the fancy Grid layout!!!!
-38.
+38. From Here we are going to wrap the Heroes List into a Heroes Component, and get as much of each component out of the App
+
+```js
+class Heroes extends Component {
+  render() {
+    return (
+      <div>
+        <h1>Git Heroes</h1>
+        <HeroesList
+          heroes={this.props.heroes}
+          handleSelectedHero={this.props.handleSelectedHero}
+        />
+        {/* 
+        Below is a conditional that will only render if selectedHero.id is true
+        */}
+        {this.props.selectedHero.id && (
+          <div>
+            <h2>{this.props.selectedHero.name}</h2>
+            <Link to={`/heroes/details/${this.props.selectedHero.id}`}>
+              <button>Details</button>
+            </Link>
+          </div>
+        )}
+      </div>
+    );
+  }
+}
+```
+
+39. In order for the Form to work, need to pass heroes down from app to heroes and dashboard.
+
+```js
+<Route
+            exact
+            path="/"
+            render={props => (
+              <Dashboard
+                {...props}
+                heroes={this.state.heroes}
+                handleSelectedHero={this.handleSelectedHero}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/heroes"
+            render={props => (
+              <Heroes
+                {...props}
+                heroes={this.state.heroes}
+                handleSelectedHero={this.handleSelectedHero}
+                selectedHero={this.state.selectedHero}
+              />
+            )}
+          />
+```
+
+40. Notice that the form is getting it's hero by calling findHeroById that lives in the App.js
+
+```js
+<Route
+  path={"/heroes/details/:heroid"}
+  render={props => (
+    <HeroForm
+      {...props}
+      submitForm={this.handleFormSubmit}
+      findHeroById={this.findHeroById}
+    />
+  )}
+/>
+```
+
+41. At this point, we should have Dashboard, Heroes List being able to direct to a particular Hero, edit it, and have it return the edited Hero to App.js.
+
+```
+//...HeroForm.js
+ handleSubmit = e => {
+    e.preventDefault();
+    this.props.submitForm(this.state.hero); //--> called on props, that is passed via props from App.js
+    this.props.history.goBack(); //--> this will go back to the last page in the browser
+  };
+```
