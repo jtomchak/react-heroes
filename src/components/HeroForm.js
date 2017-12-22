@@ -1,31 +1,64 @@
-import React from "react";
+import React, { Component } from "react";
 
-const HeroForm = props => {
-  return (
-    <div className="col-md-6 col-sm-12">
-      <h2 style={{ textAlign: "center" }}>{props.selectedHero.name}</h2>
-      <form
-        className="form-horizontal"
-        style={{ width: "60%", padding: "25px" }}
-        onSubmit={e => props.submitForm(e)}
-      >
-        <div className="form-group">
-          <label className="control-label">ID: </label>
-          {props.selectedHero.id}
+import { getHeroById } from "../heroes.service";
+
+class HeroForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      heroid: parseInt(props.match.params.heroid),
+      hero: undefined
+    };
+  }
+
+  //Lifecycle method
+  componentWillMount() {
+    getHeroById(this.state.heroid).then(hero => {
+      this.setState({
+        hero: hero
+      });
+    });
+  }
+
+  //takes event from form input and updates selectedHero name
+  handleInputChange = event => {
+    this.setState({
+      hero: {
+        ...this.state.hero,
+        name: event.target.value
+      }
+    });
+  };
+
+  //handle submit update heroes array for state
+  handleHeroSubmit = event => {
+    this.props.history.goBack();
+    event.preventDefault();
+  };
+
+  render() {
+    if (!this.state.hero) {
+      return <div>Loading.....</div>;
+    }
+    return (
+      <div>
+        <h2>{this.state.hero.name}</h2>
+        <div>
+          <label>ID: </label>
+          {this.state.hero.id}
         </div>
-        <div className="form-group">
-          <label className="control-label">Hero Name: </label>
+        <form onSubmit={this.handleHeroSubmit}>
+          <label>Hero Name: </label>
           <input
-            className="form-control"
             type="text"
-            value={props.selectedHero.name}
-            onChange={e => props.inputChange(e)}
+            value={this.state.hero.name}
+            onChange={this.handleInputChange}
           />
-        </div>
-        <input className="button btn btn-info" type="submit" value="submit" />
-      </form>
-    </div>
-  );
-};
+          <input className="button" type="submit" value="submit" />
+        </form>
+      </div>
+    );
+  }
+}
 
 export default HeroForm;

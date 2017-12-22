@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import HeroesList from "./HeroesList";
+import HeroesList from "./Heroes";
 import HeroForm from "./HeroForm";
 import Dashboard from "./Dashboard";
 import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
