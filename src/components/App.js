@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import HeroesList from "./Heroes";
+import Heroes from "./Heroes";
 import HeroForm from "./HeroForm";
 import Dashboard from "./Dashboard";
 import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
@@ -43,12 +43,12 @@ class App extends Component {
     });
   };
 
+  findHeroById = id => this.state.heroes.find(hero => hero.id === id);
+
   //save edited selected hero back into state "heroes"
-  handleFormSubmit = e => {
-    e.preventDefault();
+  handleFormSubmit = selectedHero => {
     //things we know selectedHero.name, selectedHero.id
     //do we know we know where in the array selectedHero is?
-    const selectedHero = this.state.selectedHero;
     const heroes = this.state.heroes;
     const selectedHeroIndex = this.state.heroes
       .map(o => o.id)
@@ -94,10 +94,11 @@ class App extends Component {
             exact
             path="/heroes"
             render={props => (
-              <HeroesList
+              <Heroes
                 {...props}
                 heroes={this.state.heroes}
                 handleSelectedHero={this.handleSelectedHero}
+                selectedHero={this.state.selectedHero}
               />
             )}
           />
@@ -106,9 +107,8 @@ class App extends Component {
             render={props => (
               <HeroForm
                 {...props}
-                selectedHero={this.state.selectedHero}
                 submitForm={this.handleFormSubmit}
-                inputChange={this.handleInputChange}
+                findHeroById={this.findHeroById}
               />
             )}
           />

@@ -11,17 +11,6 @@ const HEROES = [
   { id: 20, name: "Tornado" }
 ];
 
-// fetch(`https://api.github.com/users/${this.props.params.username}?access_token=554612bc8de7a1a6744b77055cbab693543d20f0
-// `)
-//             .then(resp => resp.json())
-//             .then(user => {
-//                 this.setState((prevState, props) => ({        //({ means we are returning an object
-//                     user: user
-//                 }));
-//             })
-//             .catch(err => console.log(err));
-//     }
-
 //Mock Fetch HTTP GET request for Heroes
 const getHeroes = new Promise((resolve, reject) => {
   resolve(HEROES);

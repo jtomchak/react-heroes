@@ -3,20 +3,16 @@ import React, { Component } from "react";
 import { getHeroById } from "../heroes.service";
 
 class HeroForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      heroid: parseInt(props.match.params.heroid),
-      hero: undefined
-    };
-  }
+  state = {
+    heroid: parseInt(this.props.match.params.heroid), //becasue heroid from param is a string, we need a number
+    hero: undefined
+  };
 
   //Lifecycle method
   componentWillMount() {
-    getHeroById(this.state.heroid).then(hero => {
-      this.setState({
-        hero: hero
-      });
+    const selectedHero = this.props.findHeroById(this.state.heroid);
+    this.setState({
+      hero: selectedHero
     });
   }
 
@@ -30,10 +26,10 @@ class HeroForm extends Component {
     });
   };
 
-  //handle submit update heroes array for state
-  handleHeroSubmit = event => {
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.submitForm(this.state.hero);
     this.props.history.goBack();
-    event.preventDefault();
   };
 
   render() {
@@ -47,7 +43,7 @@ class HeroForm extends Component {
           <label>ID: </label>
           {this.state.hero.id}
         </div>
-        <form onSubmit={this.handleHeroSubmit}>
+        <form onSubmit={e => this.handleSubmit(e)}>
           <label>Hero Name: </label>
           <input
             type="text"
